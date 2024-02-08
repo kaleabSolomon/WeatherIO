@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final String title;
-  final Drawer? drawer;
-  const MyAppBar(
-      {super.key,
-      required this.height,
-      required this.title,
-      required this.drawer});
+
+  const MyAppBar({
+    super.key,
+    required this.height,
+    required this.title,
+  });
 
   @override
   Size get preferredSize => Size.fromHeight(height);
@@ -16,11 +16,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
       toolbarHeight: height,
       title: Text(title,
           style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          )),
+              color: Color.fromARGB(255, 13, 60, 99),
+              fontSize: 28,
+              letterSpacing: 2,
+              fontFamily: "ProtestStrike")),
     );
   }
 }
