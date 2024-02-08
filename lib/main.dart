@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_io/pages/home_page.dart';
 import 'package:weather_io/widgets/my_appbar.dart';
 
 void main() {
@@ -10,11 +11,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          appBar: MyAppBar(
-              height: MediaQuery.of(context).size.height * 0.1,
-              title: "Weather.IO")),
+    return const MaterialApp(
+      home: HomePage(),
     );
   }
 }

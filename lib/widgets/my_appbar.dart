@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final String title;
+  final List<Widget> appBarActions;
 
   const MyAppBar({
     super.key,
     required this.height,
     required this.title,
+    required this.appBarActions,
   });
 
   @override
@@ -24,6 +26,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               fontSize: 28,
               letterSpacing: 2,
               fontFamily: "ProtestStrike")),
+      actions: [
+        ...appBarActions,
+        IconButton(onPressed: () {}, icon: const Icon(Icons.sunny))
+      ],
     );
   }
 }
