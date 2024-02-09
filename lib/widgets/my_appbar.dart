@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -19,19 +20,25 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme theme = Theme.of(context).colorScheme;
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.background,
       centerTitle: true,
       toolbarHeight: height,
       title: Text(title,
           style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
+              color: theme.primary,
               fontSize: 28,
               letterSpacing: 2,
               fontFamily: "ProtestStrike")),
       actions: [
         ...appBarActions,
-        IconButton(onPressed: toggleTheme, icon: const Icon(Icons.sunny))
+        IconButton(
+            color: theme.primary,
+            onPressed: toggleTheme,
+            icon: Provider.of<ThemeProvider>(context).isDarkMode
+                ? const Icon(Icons.dark_mode)
+                : const Icon(Icons.sunny))
       ],
     );
   }
