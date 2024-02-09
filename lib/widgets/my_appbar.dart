@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:weather_io/theme/theme_provider.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final String title;
+  VoidCallback toggleTheme;
   final List<Widget> appBarActions;
 
-  const MyAppBar({
-    super.key,
-    required this.height,
-    required this.title,
-    required this.appBarActions,
-  });
+  MyAppBar(
+      {super.key,
+      required this.height,
+      required this.title,
+      required this.appBarActions,
+      required this.toggleTheme});
 
   @override
   Size get preferredSize => Size.fromHeight(height);
@@ -18,17 +20,18 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Theme.of(context).colorScheme.background,
       centerTitle: true,
       toolbarHeight: height,
       title: Text(title,
-          style: const TextStyle(
-              color: Color.fromARGB(255, 13, 60, 99),
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
               fontSize: 28,
               letterSpacing: 2,
               fontFamily: "ProtestStrike")),
       actions: [
         ...appBarActions,
-        IconButton(onPressed: () {}, icon: const Icon(Icons.sunny))
+        IconButton(onPressed: toggleTheme, icon: const Icon(Icons.sunny))
       ],
     );
   }

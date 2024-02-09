@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/my_appbar.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,6 +21,10 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
+  void toggleTheme() {
+    Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +32,7 @@ class _HomePageState extends State<HomePage> {
         height: MediaQuery.of(context).size.height * 0.1,
         title: "Weather.IO",
         appBarActions: _appBarActions,
+        toggleTheme: toggleTheme,
       ),
     );
   }
