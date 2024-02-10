@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_io/theme/theme.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -36,7 +37,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
             color: theme.primary,
             onPressed: toggleTheme,
-            icon: Provider.of<ThemeProvider>(context).isDarkMode
+            icon: Provider.of<ThemeProvider>(context).themeData == darkMode
                 ? const Icon(Icons.dark_mode)
                 : const Icon(Icons.sunny))
       ],
