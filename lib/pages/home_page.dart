@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/my_appbar.dart';
+import 'package:weather_io/widgets/page_indicator.dart';
 import 'package:weather_io/widgets/weather_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,6 +14,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Widget> _appBarActions = [];
+  final int _pageCount = 3;
+  final PageController _pageController = PageController(keepPage: true);
 
   @override
   void didChangeDependencies() {
@@ -35,12 +38,22 @@ class _HomePageState extends State<HomePage> {
         appBarActions: _appBarActions,
         toggleTheme: toggleTheme,
       ),
-      body: SizedBox(
-        height: 220,
-        child: PageView(
-          scrollDirection: Axis.horizontal,
-          children: [WeatherCard(), WeatherCard(), WeatherCard()],
-        ),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 220,
+            child: PageView(
+              controller: _pageController,
+              scrollDirection: Axis.horizontal,
+              children: const [WeatherCard(), WeatherCard(), WeatherCard()],
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          PageIndicatorBuilder(
+              pageController: _pageController, cardCount: _pageCount)
+        ],
       ),
     );
   }
