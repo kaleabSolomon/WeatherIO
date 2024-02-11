@@ -37,9 +37,9 @@ class _HomePageState extends State<HomePage> {
       ),
       body: SizedBox(
         height: 220,
-        child: ListView(
+        child: PageView(
           scrollDirection: Axis.horizontal,
-          children: [WeatherCard(), WeatherCard()],
+          children: [WeatherCard(), WeatherCard(), WeatherCard()],
         ),
       ),
     );
