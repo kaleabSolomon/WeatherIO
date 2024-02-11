@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/my_appbar.dart';
+import 'package:weather_io/widgets/weather_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,45 +35,12 @@ class _HomePageState extends State<HomePage> {
         appBarActions: _appBarActions,
         toggleTheme: toggleTheme,
       ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        // scrollDirection: Axis.horizontal,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            width: MediaQuery.of(context).size.width * 0.92,
-            height: 220,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: const Color.fromARGB(255, 165, 226, 255),
-            ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Addis Abeba"),
-                        Text("Saturday, 01 may 2021")
-                      ],
-                    ),
-                    Text("24°"),
-                    Text("Sunny")
-                  ],
-                ),
-                Icon(
-                  Icons.sunny,
-                  size: 80,
-                  color: Colors.orange,
-                )
-              ],
-            ),
-          ),
-        ],
+      body: SizedBox(
+        height: 220,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: [WeatherCard(), WeatherCard()],
+        ),
       ),
     );
   }
