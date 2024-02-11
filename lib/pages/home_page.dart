@@ -40,19 +40,23 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          SizedBox(
-            height: 220,
-            child: PageView(
-              controller: _pageController,
-              scrollDirection: Axis.horizontal,
-              children: const [WeatherCard(), WeatherCard(), WeatherCard()],
-            ),
+          Column(
+            children: [
+              SizedBox(
+                height: 220,
+                child: PageView(
+                  controller: _pageController,
+                  scrollDirection: Axis.horizontal,
+                  children: const [WeatherCard(), WeatherCard(), WeatherCard()],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              PageIndicatorBuilder(
+                  pageController: _pageController, cardCount: _pageCount),
+            ],
           ),
-          const SizedBox(
-            height: 16,
-          ),
-          PageIndicatorBuilder(
-              pageController: _pageController, cardCount: _pageCount)
         ],
       ),
     );
