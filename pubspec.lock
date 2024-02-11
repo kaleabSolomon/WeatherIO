@@ -115,6 +115,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  page_indicator_plus:
+    dependency: "direct main"
+    description:
+      name: page_indicator_plus
+      sha256: c30dba0b9b028c315648c1cf72f99803a7354249c00e93fb05af37d0f14903cd
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   path:
     dependency: transitive
     description:
@@ -202,4 +210,4 @@ packages:
     version: "0.3.0"
 sdks:
   dart: ">=3.2.3 <4.0.0"
-  flutter: ">=1.16.0"
+  flutter: ">=1.17.0"
