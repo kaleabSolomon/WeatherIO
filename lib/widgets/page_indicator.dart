@@ -36,7 +36,10 @@ class _PageIndicatorBuilderState extends State<PageIndicatorBuilder> {
     return SmoothPageIndicator(
       controller: widget.pageController,
       count: widget.cardCount,
-      effect: WormEffect(activeDotColor: Theme.of(context).colorScheme.primary),
+      effect: ScrollingDotsEffect(
+          activeDotColor: Theme.of(context).colorScheme.primary,
+          dotWidth: 8,
+          dotHeight: 8),
     );
   }
 }
