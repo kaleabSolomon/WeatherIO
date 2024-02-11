@@ -29,10 +29,50 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: MediaQuery.of(context).size.height * 0.15,
         title: "Weather.IO",
         appBarActions: _appBarActions,
         toggleTheme: toggleTheme,
+      ),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        // scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            width: MediaQuery.of(context).size.width * 0.92,
+            height: 220,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: const Color.fromARGB(255, 165, 226, 255),
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Addis Abeba"),
+                        Text("Saturday, 01 may 2021")
+                      ],
+                    ),
+                    Text("24°"),
+                    Text("Sunny")
+                  ],
+                ),
+                Icon(
+                  Icons.sunny,
+                  size: 80,
+                  color: Colors.orange,
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

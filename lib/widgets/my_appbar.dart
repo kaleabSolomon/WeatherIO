@@ -6,10 +6,10 @@ import 'package:weather_io/theme/theme_provider.dart';
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final String title;
-  VoidCallback toggleTheme;
+  final VoidCallback toggleTheme;
   final List<Widget> appBarActions;
 
-  MyAppBar(
+  const MyAppBar(
       {super.key,
       required this.height,
       required this.title,
@@ -37,7 +37,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
             color: theme.primary,
             onPressed: toggleTheme,
-            icon: Provider.of<ThemeProvider>(context).themeData == darkMode
+            iconSize: 30,
+            icon: Provider.of<ThemeProvider>(context).themeData == lightMode
                 ? const Icon(Icons.dark_mode)
                 : const Icon(Icons.sunny))
       ],

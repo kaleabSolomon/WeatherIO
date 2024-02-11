@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_io/pages/home_page.dart';
-import 'package:weather_io/theme/theme.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 
 void main() {
@@ -17,7 +16,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      themeMode: ThemeMode.system,
       theme: Provider.of<ThemeProvider>(context).themeData,
       home: const HomePage(),
     );
