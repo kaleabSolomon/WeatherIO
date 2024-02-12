@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_io/pages/add_locations_page.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/future_forecast.dart';
 import 'package:weather_io/widgets/my_appbar.dart';
@@ -23,7 +24,15 @@ class _HomePageState extends State<HomePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _appBarActions = [
-      IconButton(onPressed: () {}, icon: const Icon(Icons.add))
+      IconButton(
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const AddLocationsPage())),
+          icon: const Icon(
+            Icons.add,
+            size: 30,
+          ))
     ];
   }
 
