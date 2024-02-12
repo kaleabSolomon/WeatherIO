@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
+import 'package:weather_io/widgets/future_forecast.dart';
 import 'package:weather_io/widgets/my_appbar.dart';
 import 'package:weather_io/widgets/page_indicator.dart';
 import 'package:weather_io/widgets/weather_card.dart';
@@ -65,45 +66,25 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.92,
-              color: Colors.red,
               margin: const EdgeInsets.symmetric(vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("5 days of forcast"),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 14),
+                    child: Text(
+                      "5 days of Forecast",
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontFamily: "ProtestStrike",
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ),
                   Expanded(
                     child: ListView(
                       children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.all(8),
-                          height: 50,
-                          color: Colors.yellow,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(8),
-                          height: 50,
-                          color: Colors.yellow,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(8),
-                          height: 50,
-                          color: Colors.yellow,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(8),
-                          height: 50,
-                          color: Colors.yellow,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(8),
-                          height: 50,
-                          color: Colors.yellow,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(8),
-                          height: 50,
-                          color: Colors.yellow,
-                        ),
+                        FutureForecast(),
                       ],
                     ),
                   )

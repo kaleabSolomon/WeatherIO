@@ -21,7 +21,7 @@ class WeatherStatsToday extends StatelessWidget {
             child: Text(
               "Today",
               style: TextStyle(
-                  fontSize: 26,
+                  fontSize: 24,
                   fontFamily: "ProtestStrike",
                   color: Theme.of(context).colorScheme.primary),
             ),
