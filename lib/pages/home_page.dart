@@ -4,7 +4,7 @@ import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/my_appbar.dart';
 import 'package:weather_io/widgets/page_indicator.dart';
 import 'package:weather_io/widgets/weather_card.dart';
-import 'package:weather_io/widgets/weather_stats.dart';
+import 'package:weather_io/widgets/weather_stats_today.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -61,49 +61,54 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 10,
           ),
-          Container(
-            height: 100,
-            width: MediaQuery.of(context).size.width * 0.92,
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 172, 225, 255),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 14.0, vertical: 14),
-                  child: Text(
-                    "Today",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: "ProtestStrike",
-                        color: Theme.of(context).colorScheme.primary),
-                  ),
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    WeatherStats(
-                        description: "temperature",
-                        stat: "20°",
-                        imagePath: "assets/temp.png"),
-                    WeatherStats(
-                        description: "sun duration",
-                        stat: "5 hrs",
-                        imagePath: "assets/sun.png"),
-                    WeatherStats(
-                        description: "wind speed",
-                        stat: "20 mi/hr",
-                        imagePath: "assets/wind.png"),
-                    WeatherStats(
-                        description: "rain",
-                        stat: "0.3 in",
-                        imagePath: "assets/rain.png"),
-                  ],
-                )
-              ],
+          const WeatherStatsToday(),
+          Expanded(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.92,
+              color: Colors.red,
+              margin: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("5 days of forcast"),
+                  Expanded(
+                    child: ListView(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.all(8),
+                          height: 50,
+                          color: Colors.yellow,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(8),
+                          height: 50,
+                          color: Colors.yellow,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(8),
+                          height: 50,
+                          color: Colors.yellow,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(8),
+                          height: 50,
+                          color: Colors.yellow,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(8),
+                          height: 50,
+                          color: Colors.yellow,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(8),
+                          height: 50,
+                          color: Colors.yellow,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           )
         ],
