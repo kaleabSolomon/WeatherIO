@@ -83,8 +83,37 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Expanded(
                     child: ListView(
-                      children: <Widget>[
-                        FutureForecast(),
+                      children: const <Widget>[
+                        FutureForecast(
+                          day: "Monday",
+                          condition: "sunny",
+                          maxTemp: "22",
+                          minTemp: "19",
+                        ),
+                        FutureForecast(
+                          day: "Monday",
+                          condition: "sunny",
+                          maxTemp: "22",
+                          minTemp: "19",
+                        ),
+                        FutureForecast(
+                          day: "Monday",
+                          condition: "sunny",
+                          maxTemp: "22",
+                          minTemp: "19",
+                        ),
+                        FutureForecast(
+                          day: "Monday",
+                          condition: "sunny",
+                          maxTemp: "22",
+                          minTemp: "19",
+                        ),
+                        FutureForecast(
+                          day: "Monday",
+                          condition: "sunny",
+                          maxTemp: "22",
+                          minTemp: "19",
+                        ),
                       ],
                     ),
                   )
