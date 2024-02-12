@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weather_io/theme/theme.dart';
+import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/weather_stat.dart';
 
 class WeatherStatsToday extends StatelessWidget {
@@ -10,7 +13,9 @@ class WeatherStatsToday extends StatelessWidget {
       height: 120,
       width: MediaQuery.of(context).size.width * 0.92,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 172, 225, 255),
+        color: Provider.of<ThemeProvider>(context).themeData == lightMode
+            ? const Color.fromARGB(255, 74, 144, 255)
+            : const Color.fromARGB(255, 8, 20, 86),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(

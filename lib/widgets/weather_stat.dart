@@ -16,7 +16,7 @@ class WeatherStat extends StatelessWidget {
     return Row(
       children: [
         Image.asset(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.primary,
           imagePath,
           width: 32,
           height: 32,
@@ -26,7 +26,7 @@ class WeatherStat extends StatelessWidget {
         ),
         Text(stat,
             style: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.primary,
                 fontSize: 16,
                 fontWeight: FontWeight.bold))
       ],
