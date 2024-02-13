@@ -24,6 +24,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     final ColorScheme theme = Theme.of(context).colorScheme;
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.background,
+      elevation: 0,
+      scrolledUnderElevation: 0.0,
       centerTitle: true,
       toolbarHeight: height,
       title: Text(title,
