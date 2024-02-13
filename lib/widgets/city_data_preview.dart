@@ -9,9 +9,8 @@ class CityDataPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 250,
-        margin: const EdgeInsets.symmetric(horizontal: 12),
+    return SizedBox(
+        height: 220,
         width: MediaQuery.of(context).size.width * 0.45,
         child: Stack(children: <Widget>[
           ClipRRect(
@@ -25,7 +24,7 @@ class CityDataPreview extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
