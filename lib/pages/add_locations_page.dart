@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
+import 'package:weather_io/widgets/city_data_preview.dart';
 import 'package:weather_io/widgets/my_appbar.dart';
 
 class AddLocationsPage extends StatefulWidget {
@@ -25,10 +26,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
         appBarActions: [],
       ),
       body: Column(children: [
-        Expanded(
-            child: Container(
-          color: Colors.blue,
-        )),
+        const CityDataPreview(),
         Container(
           margin: const EdgeInsets.all(10),
           width: MediaQuery.of(context).size.width * 0.9,
