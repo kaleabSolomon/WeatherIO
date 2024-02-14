@@ -24,7 +24,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
         height: MediaQuery.of(context).size.height * 0.15,
         title: "Selected Cities",
         toggleTheme: toggleTheme,
-        appBarActions: [],
+        appBarActions: const [],
       ),
       body: Column(children: [
         Padding(
@@ -50,6 +50,8 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
         ),
         Expanded(
             child: GridView.builder(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 itemCount: 5,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -59,10 +61,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                     crossAxisSpacing: 16),
                 itemBuilder: (BuildContext context, int index) =>
                     const CityDataPreview())),
-        CustomButton(
-            title: "Save Selection",
-            btnColor: Color.fromARGB(255, 0, 34, 85),
-            btnAction: () {})
+        CustomButton(title: "Save Selection", btnAction: () {})
       ]),
     );
   }

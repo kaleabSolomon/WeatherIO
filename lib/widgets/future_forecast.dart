@@ -16,10 +16,10 @@ class FutureForecast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       height: 40,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 18),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -28,13 +28,13 @@ class FutureForecast extends StatelessWidget {
                   color: Color.fromARGB(255, 103, 103, 103),
                   fontSize: 20,
                 )),
-            Icon(
+            const Icon(
               Icons.cloudy_snowing,
               size: 40,
               color: Color.fromARGB(255, 190, 189, 189),
             ),
             Text("$maxTemp/$minTemp",
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color.fromARGB(255, 103, 103, 103),
                   fontSize: 18,
                 ))

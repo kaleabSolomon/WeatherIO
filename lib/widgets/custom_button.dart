@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String title;
-  final Color btnColor;
   final VoidCallback btnAction;
-  const CustomButton(
-      {super.key,
-      required this.title,
-      required this.btnColor,
-      required this.btnAction});
+  const CustomButton({super.key, required this.title, required this.btnAction});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +13,7 @@ class CustomButton extends StatelessWidget {
       child: TextButton(
         onPressed: btnAction,
         style: TextButton.styleFrom(
-          backgroundColor: btnColor,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           padding: const EdgeInsets.symmetric(vertical: 18), // Button padding
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8), // Button border radius
@@ -26,8 +21,8 @@ class CustomButton extends StatelessWidget {
         ),
         child: Text(
           title,
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.secondary,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
