@@ -22,11 +22,32 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
     return Scaffold(
       appBar: MyAppBar(
         height: MediaQuery.of(context).size.height * 0.15,
-        title: "City",
+        title: "Selected Cities",
         toggleTheme: toggleTheme,
         appBarActions: [],
       ),
       body: Column(children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+          child: TextField(
+            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            decoration: InputDecoration(
+                hintText: "Search Cities",
+                hintStyle: const TextStyle(
+                  color: Color.fromARGB(255, 171, 171, 171),
+                ),
+                contentPadding: const EdgeInsets.symmetric(vertical: 20),
+                filled: true,
+                fillColor: Theme.of(context).colorScheme.secondary,
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(20))),
+          ),
+        ),
         Expanded(
             child: GridView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -34,12 +55,12 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio: 3 / 4,
                     crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 12),
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16),
                 itemBuilder: (BuildContext context, int index) =>
                     const CityDataPreview())),
         CustomButton(
-            title: "Add Location",
+            title: "Save Selection",
             btnColor: Color.fromARGB(255, 0, 34, 85),
             btnAction: () {})
       ]),

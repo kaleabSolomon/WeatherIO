@@ -37,7 +37,7 @@ class WeatherCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Addis Abeba",
+                          "ADDIS ABEBA",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
