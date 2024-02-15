@@ -1,6 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_io/provider/autocomplete_provider.dart';
+import 'package:weather_io/provider/suggestions_provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/city_data_preview.dart';
 import 'package:weather_io/widgets/custom_button.dart';
@@ -15,6 +17,8 @@ class AddLocationsPage extends StatefulWidget {
 
 class _AddLocationsPageState extends State<AddLocationsPage> {
   final TextEditingController _searchController = TextEditingController();
+  Timer? _debounce;
+
   void toggleTheme() {
     Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
   }
@@ -23,8 +27,17 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _searchFocusNode.dispose();
     super.dispose();
+  }
+
+  void _onSearchTextChanged(String text) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      Provider.of<SuggestionsProvider>(context, listen: false)
+          .fetchSuggestions(text);
+    });
   }
 
   @override
@@ -42,11 +55,13 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
           child: TextField(
             controller: _searchController,
-            onChanged: (value) {
-              // Call the filter function here to update the list immediately
-              Provider.of<AutoCompleteProvider>(context, listen: false)
-                  .filterSuggestions(value);
-            },
+            onChanged: (value) => _onSearchTextChanged(value),
+
+            // (value) {
+            //   // Call the filter function here to update the list immediately
+            //   Provider.of<AutoCompleteProvider>(context, listen: false)
+            //       .filterSuggestions(value);
+            // },
             focusNode: _searchFocusNode,
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
             decoration: InputDecoration(
@@ -70,8 +85,8 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
           visible: _searchFocusNode.hasFocus,
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: Provider.of<AutoCompleteProvider>(context)
-                .results
+            itemCount: Provider.of<SuggestionsProvider>(context)
+                .suggestions
                 .length, // Number of autocomplete suggestions
             itemBuilder: (context, index) {
               // Build your autocomplete suggestion itema
@@ -81,8 +96,9 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: ListTile(
                       leading: const Icon(Icons.place),
-                      title: Text(Provider.of<AutoCompleteProvider>(context)
-                          .results[index]),
+                      title: Text(Provider.of<SuggestionsProvider>(context)
+                          .suggestions[index]
+                          .city),
                       onTap: () {
                         // Handle suggestion tap
                       },
@@ -116,3 +132,4 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
     );
   }
 }
+//TODO: aborting api call
