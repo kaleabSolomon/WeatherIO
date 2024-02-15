@@ -58,7 +58,26 @@ class _HomePageState extends State<HomePage> {
                 child: PageView(
                   controller: _pageController,
                   scrollDirection: Axis.horizontal,
-                  children: const [WeatherCard(), WeatherCard(), WeatherCard()],
+                  children: const [
+                    WeatherCard(
+                      location: 'Addis Abeba',
+                      date: "2024-02-15T07:00:00+00:00",
+                      temperature: "24",
+                      weatherCondition: "Sunny",
+                    ),
+                    WeatherCard(
+                      location: 'Addis Abeba',
+                      date: "2024-02-15T07:00:00+00:00",
+                      temperature: "24",
+                      weatherCondition: "Sunny",
+                    ),
+                    WeatherCard(
+                      location: 'Addis Abeba',
+                      date: "2024-02-15T07:00:00+00:00",
+                      temperature: "24",
+                      weatherCondition: "Sunny",
+                    )
+                  ],
                 ),
               ),
               const SizedBox(

@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_io/theme/theme.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 
 class WeatherCard extends StatelessWidget {
-  const WeatherCard({super.key});
+  final String location;
+  final String date;
+  final String temperature;
+  final String weatherCondition;
+
+  const WeatherCard(
+      {super.key,
+      required this.location,
+      required this.date,
+      required this.temperature,
+      required this.weatherCondition});
+
+  String formatDate(String dateString) {
+    DateTime date = DateTime.parse(dateString);
+
+    DateFormat formatter = DateFormat('EEEE, dd MMMM yyyy');
+
+    String formattedDate = formatter.format(date);
+
+    return formattedDate;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +58,7 @@ class WeatherCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "ADDIS ABEBA",
+                          location,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -45,7 +66,7 @@ class WeatherCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Saturday, 01 may 2021",
+                          formatDate(date),
                           style: TextStyle(
                             fontSize: 16,
                             color: Theme.of(context).colorScheme.secondary,
@@ -54,7 +75,7 @@ class WeatherCard extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      "24°",
+                      "$temperature°",
                       style: TextStyle(
                         fontSize: 42,
                         fontWeight: FontWeight.bold,
@@ -62,7 +83,7 @@ class WeatherCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Sunny",
+                      weatherCondition,
                       style: TextStyle(
                           fontSize: 18,
                           color: Theme.of(context).colorScheme.secondary,
