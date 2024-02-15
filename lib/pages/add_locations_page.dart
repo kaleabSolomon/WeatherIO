@@ -75,12 +75,20 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                 .length, // Number of autocomplete suggestions
             itemBuilder: (context, index) {
               // Build your autocomplete suggestion itema
-              return ListTile(
-                title: Text(
-                    Provider.of<AutoCompleteProvider>(context).results[index]),
-                onTap: () {
-                  // Handle suggestion tap
-                },
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: ListTile(
+                      leading: const Icon(Icons.place),
+                      title: Text(Provider.of<AutoCompleteProvider>(context)
+                          .results[index]),
+                      onTap: () {
+                        // Handle suggestion tap
+                      },
+                    ),
+                  ),
+                ],
               );
             },
           ),
