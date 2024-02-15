@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_io/pages/home_page.dart';
+import 'package:weather_io/provider/autocomplete_provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => ThemeProvider(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ChangeNotifierProvider(create: (context) => AutoCompleteProvider()),
+    ],
     child: const MyApp(),
   ));
 }

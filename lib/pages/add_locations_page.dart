@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_io/provider/autocomplete_provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/city_data_preview.dart';
 import 'package:weather_io/widgets/custom_button.dart';
@@ -13,8 +14,17 @@ class AddLocationsPage extends StatefulWidget {
 }
 
 class _AddLocationsPageState extends State<AddLocationsPage> {
+  final TextEditingController _searchController = TextEditingController();
   void toggleTheme() {
     Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+  }
+
+  final FocusNode _searchFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _searchFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -30,6 +40,10 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
           child: TextField(
+            controller: _searchController,
+            onChanged: Provider.of<AutoCompleteProvider>(context, listen: false)
+                .filterSuggestions(_searchController.text),
+            focusNode: _searchFocusNode,
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
             decoration: InputDecoration(
                 hintText: "Search Cities",
@@ -40,7 +54,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                 filled: true,
                 fillColor: Theme.of(context).colorScheme.secondary,
                 prefixIcon: Icon(
-                  Icons.search,
+                  Icons.place,
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 border: OutlineInputBorder(
@@ -48,19 +62,42 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                     borderRadius: BorderRadius.circular(20))),
           ),
         ),
-        Expanded(
-            child: GridView.builder(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                itemCount: 5,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 3 / 4,
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16),
-                itemBuilder: (BuildContext context, int index) =>
-                    const CityDataPreview())),
+        Visibility(
+          visible: _searchFocusNode.hasFocus,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: Provider.of<AutoCompleteProvider>(context, listen: false)
+                .results
+                .length, // Number of autocomplete suggestions
+            itemBuilder: (context, index) {
+              // Build your autocomplete suggestion item
+              return ListTile(
+                title: Text(
+                    Provider.of<AutoCompleteProvider>(context, listen: false)
+                        .results[index]),
+                onTap: () {
+                  // Handle suggestion tap
+                },
+              );
+            },
+          ),
+        ),
+        Visibility(
+          visible: !_searchFocusNode.hasFocus,
+          child: Expanded(
+              child: GridView.builder(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  itemCount: 5,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 3 / 4,
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16),
+                  itemBuilder: (BuildContext context, int index) =>
+                      const CityDataPreview())),
+        ),
         CustomButton(title: "Save Selection", btnAction: () {})
       ]),
     );
