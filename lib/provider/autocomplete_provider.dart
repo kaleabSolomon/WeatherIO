@@ -5,19 +5,31 @@ class AutoCompleteProvider extends ChangeNotifier {
     "addis abeba",
     "new york",
     "california",
+    "Bishoftu",
+    "Ankara",
+    "Ankara",
+    "Ankara",
   ];
   List<String> get suggestions => _suggestions;
   List<String> results = [];
 
+  AutoCompleteProvider() {
+    results = List<String>.from(_suggestions);
+  }
+
   filterSuggestions(String keyword) {
-    results = List<String>.from(suggestions);
     if (keyword.isEmpty) {
-      results = _suggestions;
+      results = List<String>.from(_suggestions);
     } else {
       results = _suggestions
           .where((suggestion) =>
               suggestion.toLowerCase().contains(keyword.toLowerCase()))
           .toList();
+
+      print(results);
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
   }
 }

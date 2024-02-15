@@ -30,6 +30,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
         height: MediaQuery.of(context).size.height * 0.15,
         title: "Selected Cities",
@@ -41,8 +42,11 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
           child: TextField(
             controller: _searchController,
-            onChanged: Provider.of<AutoCompleteProvider>(context, listen: false)
-                .filterSuggestions(_searchController.text),
+            onChanged: (value) {
+              // Call the filter function here to update the list immediately
+              Provider.of<AutoCompleteProvider>(context, listen: false)
+                  .filterSuggestions(value);
+            },
             focusNode: _searchFocusNode,
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
             decoration: InputDecoration(
@@ -66,15 +70,14 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
           visible: _searchFocusNode.hasFocus,
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: Provider.of<AutoCompleteProvider>(context, listen: false)
+            itemCount: Provider.of<AutoCompleteProvider>(context)
                 .results
                 .length, // Number of autocomplete suggestions
             itemBuilder: (context, index) {
-              // Build your autocomplete suggestion item
+              // Build your autocomplete suggestion itema
               return ListTile(
                 title: Text(
-                    Provider.of<AutoCompleteProvider>(context, listen: false)
-                        .results[index]),
+                    Provider.of<AutoCompleteProvider>(context).results[index]),
                 onTap: () {
                   // Handle suggestion tap
                 },
@@ -98,7 +101,9 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                   itemBuilder: (BuildContext context, int index) =>
                       const CityDataPreview())),
         ),
-        CustomButton(title: "Save Selection", btnAction: () {})
+        Visibility(
+            visible: !_searchFocusNode.hasFocus,
+            child: CustomButton(title: "Save Selection", btnAction: () {}))
       ]),
     );
   }
