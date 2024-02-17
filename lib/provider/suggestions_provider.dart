@@ -9,10 +9,15 @@ class SuggestionsProvider extends ChangeNotifier {
 
   List<Suggestion> suggestions = [];
 
-  Future<void> fetchSuggestions(keyword) async {
+  Future<void> fetchSuggestions(String keyword) async {
     _cancelToken?.cancel();
     _cancelToken = CancelToken();
     try {
+      if (keyword.length < 3) {
+        suggestions.clear();
+        notifyListeners();
+        return;
+      }
       final res =
           await _service.getSuggestions(keyword, cancelToken: _cancelToken);
       suggestions = res;

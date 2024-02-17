@@ -56,11 +56,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
           child: TextField(
             controller: _searchController,
-            onChanged: (value) {
-              if (value.length > 2) {
-                _onSearchTextChanged(value);
-              }
-            },
+            onChanged: (value) => _onSearchTextChanged(value),
             focusNode: _searchFocusNode,
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
             decoration: InputDecoration(
@@ -82,34 +78,31 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
         ),
         Visibility(
           visible: _searchFocusNode.hasFocus,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: Provider.of<SuggestionsProvider>(context)
-                .suggestions
-                .length, // Number of autocomplete suggestions
-            itemBuilder: (context, index) {
-              // Build your autocomplete suggestion itema
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: ListTile(
-                      leading: const Icon(Icons.place),
-                      title: Text(
-                        "${suggestions[index].localizedName}, ${suggestions[index].country}",
-                        style: const TextStyle(
-                          fontSize: 18,
+          child: _searchController.text.length < 2
+              ? const SizedBox()
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: Provider.of<SuggestionsProvider>(context)
+                      .suggestions
+                      .length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: ListTile(
+                        leading: const Icon(Icons.place),
+                        title: Text(
+                          "${suggestions[index].localizedName}, ${suggestions[index].country}",
+                          style: const TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
+                        onTap: () {
+                          // Handle suggestion tap
+                        },
                       ),
-                      onTap: () {
-                        // Handle suggestion tap
-                      },
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
+                    );
+                  },
+                ),
         ),
         Visibility(
           visible: !_searchFocusNode.hasFocus,
