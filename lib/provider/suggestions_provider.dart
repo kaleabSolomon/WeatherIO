@@ -8,19 +8,29 @@ class SuggestionsProvider extends ChangeNotifier {
   CancelToken? _cancelToken;
 
   List<Suggestion> suggestions = [];
+  bool _hasSearched = false;
+
+  bool get hasSearched => _hasSearched;
+
+  set hasSearched(bool val) {
+    _hasSearched = val;
+  }
 
   Future<void> fetchSuggestions(String keyword) async {
     _cancelToken?.cancel();
     _cancelToken = CancelToken();
+
     try {
       if (keyword.length < 3) {
         suggestions.clear();
+        hasSearched = false;
         notifyListeners();
         return;
       }
       final res =
           await _service.getSuggestions(keyword, cancelToken: _cancelToken);
       suggestions = res;
+      hasSearched = true;
       notifyListeners();
       print(suggestions);
     } catch (e) {

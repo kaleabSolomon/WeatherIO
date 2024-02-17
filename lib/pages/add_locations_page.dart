@@ -43,6 +43,8 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
   @override
   Widget build(BuildContext context) {
     final suggestions = Provider.of<SuggestionsProvider>(context).suggestions;
+    final bool hasSearched =
+        Provider.of<SuggestionsProvider>(context).hasSearched;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
@@ -78,15 +80,27 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
         ),
         Visibility(
           visible: _searchFocusNode.hasFocus,
-          child: _searchController.text.length < 2
-              ? const SizedBox()
-              : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: Provider.of<SuggestionsProvider>(context)
-                      .suggestions
-                      .length,
-                  itemBuilder: (context, index) {
-                    return Padding(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: hasSearched
+                ? suggestions.isEmpty
+                    ? 1
+                    : Provider.of<SuggestionsProvider>(context)
+                        .suggestions
+                        .length
+                : 0,
+            itemBuilder: (context, index) {
+              return hasSearched && suggestions.isEmpty
+                  ? const Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Center(
+                        child: Text(
+                          "No Cities found!",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    )
+                  : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: ListTile(
                         leading: const Icon(Icons.place),
@@ -101,8 +115,8 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                         },
                       ),
                     );
-                  },
-                ),
+            },
+          ),
         ),
         Visibility(
           visible: !_searchFocusNode.hasFocus,
@@ -127,4 +141,3 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
     );
   }
 }
-//TODO: aborting api call
