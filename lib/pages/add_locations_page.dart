@@ -55,13 +55,11 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
           child: TextField(
             controller: _searchController,
-            onChanged: (value) => _onSearchTextChanged(value),
-
-            // (value) {
-            //   // Call the filter function here to update the list immediately
-            //   Provider.of<AutoCompleteProvider>(context, listen: false)
-            //       .filterSuggestions(value);
-            // },
+            onChanged: (value) {
+              if (value.length > 2) {
+                _onSearchTextChanged(value);
+              }
+            },
             focusNode: _searchFocusNode,
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
             decoration: InputDecoration(
