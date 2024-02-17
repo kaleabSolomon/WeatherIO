@@ -1,24 +1,30 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:weather_io/constants.dart';
 import 'package:weather_io/model/suggestion.dart';
-import "package:http/http.dart" as http;
 
 class SuggestionService {
-  Future<List<Suggestion>> getSuggestions(String query) async {
-    var url =
-        "http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=$api_key&q=$query";
+  final Dio _dio = Dio();
 
-    final res = await http.get(Uri.parse(url));
+  Future<List<Suggestion>> getSuggestions(String query,
+      {CancelToken? cancelToken}) async {
+    try {
+      final res = await _dio.get(
+          "http://dataservice.accuweather.com/locations/v1/cities/autocomplete",
+          queryParameters: {"apikey": api_key, "q": query},
+          cancelToken: cancelToken);
 
-    if (res.statusCode == 200) {
-      final json = jsonDecode(res.body) as List;
+      if (res.statusCode == 200) {
+        final List<dynamic> jsonList = res.data;
 
-      List<Suggestion> suggestions =
-          json.map((item) => Suggestion.fromJson(item)).toList();
+        List<Suggestion> suggestions =
+            jsonList.map((json) => Suggestion.fromJson(json)).toList();
 
-      return suggestions;
+        return suggestions;
+      } else {
+        throw Exception('Failed to load suggestions');
+      }
+    } catch (e) {
+      throw Exception('Failed to load suggestions: $e');
     }
-    return [];
   }
 }

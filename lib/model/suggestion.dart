@@ -1,15 +1,15 @@
 class Suggestion {
-  final String city;
+  final String localizedName;
   final String country;
-  final String locationKey;
+  final String key;
 
   Suggestion(
-      {required this.city, required this.country, required this.locationKey});
+      {required this.localizedName, required this.country, required this.key});
 
   factory Suggestion.fromJson(Map<String, dynamic> json) {
     return Suggestion(
-        city: json["LocalizedName"] as String,
-        country: json["Country"]["LocalizedName"] as String,
-        locationKey: json["Key"] as String);
+        localizedName: json["LocalizedName"],
+        country: json["Country"]["LocalizedName"],
+        key: json["Key"]);
   }
 }

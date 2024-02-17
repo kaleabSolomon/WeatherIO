@@ -98,7 +98,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                       leading: const Icon(Icons.place),
                       title: Text(Provider.of<SuggestionsProvider>(context)
                           .suggestions[index]
-                          .city),
+                          .localizedName),
                       onTap: () {
                         // Handle suggestion tap
                       },
