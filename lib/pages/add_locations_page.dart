@@ -42,6 +42,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final suggestions = Provider.of<SuggestionsProvider>(context).suggestions;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
@@ -94,9 +95,12 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: ListTile(
                       leading: const Icon(Icons.place),
-                      title: Text(Provider.of<SuggestionsProvider>(context)
-                          .suggestions[index]
-                          .localizedName),
+                      title: Text(
+                        "${suggestions[index].localizedName}, ${suggestions[index].country}",
+                        style: const TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
                       onTap: () {
                         // Handle suggestion tap
                       },
