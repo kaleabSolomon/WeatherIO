@@ -6,6 +6,7 @@ import 'package:weather_io/provider/suggestions_provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/city_data_preview.dart';
 import 'package:weather_io/widgets/custom_button.dart';
+import 'package:weather_io/widgets/custom_searchbar.dart';
 import 'package:weather_io/widgets/my_appbar.dart';
 
 class AddLocationsPage extends StatefulWidget {
@@ -55,29 +56,11 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
       ),
       body: Column(children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-          child: TextField(
-            controller: _searchController,
-            onChanged: (value) => _onSearchTextChanged(value),
-            focusNode: _searchFocusNode,
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
-            decoration: InputDecoration(
-                hintText: "Search Cities",
-                hintStyle: const TextStyle(
-                  color: Color.fromARGB(255, 171, 171, 171),
-                ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 20),
-                filled: true,
-                fillColor: Theme.of(context).colorScheme.secondary,
-                prefixIcon: Icon(
-                  Icons.place,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(20))),
-          ),
-        ),
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+            child: CustomSearchBar(
+                controller: _searchController,
+                searchFocusNode: _searchFocusNode,
+                onChanged: _onSearchTextChanged)),
         Visibility(
           visible: _searchFocusNode.hasFocus,
           child: ListView.builder(
