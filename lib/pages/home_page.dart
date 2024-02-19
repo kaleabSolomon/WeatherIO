@@ -61,10 +61,7 @@ class _HomePageState extends State<HomePage> {
                   scrollDirection: Axis.horizontal,
                   children: const [
                     WeatherCard(
-                      location: 'Addis Abeba',
-                      date: "2024-02-15T07:00:00+00:00",
-                      temperature: "24",
-                      weatherCondition: "Sunny",
+                      isNoForecast: true,
                     ),
                     WeatherCard(
                       location: 'Addis Abeba',

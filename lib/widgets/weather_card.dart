@@ -6,19 +6,22 @@ import 'package:weather_io/theme/theme.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 
 class WeatherCard extends StatelessWidget {
-  final String location;
-  final String date;
-  final String temperature;
-  final String weatherCondition;
+  final String? location;
+  final String? date;
+  final String? temperature;
+  final String? weatherCondition;
+  final bool? isNoForecast;
 
   const WeatherCard(
       {super.key,
-      required this.location,
-      required this.date,
-      required this.temperature,
-      required this.weatherCondition});
+      this.location,
+      this.date,
+      this.temperature,
+      this.weatherCondition,
+      this.isNoForecast});
 
   String formatDate(String dateString) {
+    if (dateString.isEmpty) return "";
     DateTime date = DateTime.parse(dateString);
 
     DateFormat formatter = DateFormat('EEEE, dd MMMM yyyy');
@@ -37,12 +40,17 @@ class WeatherCard extends StatelessWidget {
         child: Stack(children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: SvgPicture.asset(
-              Provider.of<ThemeProvider>(context).themeData == lightMode
-                  ? "assets/svg/pattern-lightmode.svg"
-                  : "assets/svg/pattern-darkmode.svg",
-              alignment: Alignment.center,
-              fit: BoxFit.cover,
+            child: ColorFiltered(
+              colorFilter: isNoForecast == true
+                  ? const ColorFilter.mode(Colors.grey, BlendMode.saturation)
+                  : const ColorFilter.mode(Colors.transparent, BlendMode.color),
+              child: SvgPicture.asset(
+                Provider.of<ThemeProvider>(context).themeData == lightMode
+                    ? "assets/svg/pattern-lightmode.svg"
+                    : "assets/svg/pattern-darkmode.svg",
+                alignment: Alignment.center,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Padding(
@@ -58,7 +66,7 @@ class WeatherCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          location,
+                          location ?? "",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -66,7 +74,7 @@ class WeatherCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          formatDate(date),
+                          formatDate(date ?? ""),
                           style: TextStyle(
                             fontSize: 16,
                             color: Theme.of(context).colorScheme.secondary,
@@ -75,7 +83,7 @@ class WeatherCard extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      "$temperature°",
+                      temperature != null ? "$temperature°" : "",
                       style: TextStyle(
                         fontSize: 42,
                         fontWeight: FontWeight.bold,
@@ -83,7 +91,7 @@ class WeatherCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      weatherCondition,
+                      weatherCondition ?? "",
                       style: TextStyle(
                           fontSize: 18,
                           color: Theme.of(context).colorScheme.secondary,
@@ -91,10 +99,10 @@ class WeatherCard extends StatelessWidget {
                     )
                   ],
                 ),
-                const Icon(
-                  Icons.sunny,
+                Icon(
+                  isNoForecast != true ? Icons.sunny : Icons.unpublished_sharp,
                   size: 90,
-                  color: Colors.orange,
+                  color: isNoForecast != true ? Colors.orange : Colors.grey,
                 )
               ],
             ),
