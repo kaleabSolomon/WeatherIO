@@ -32,7 +32,6 @@ class SuggestionsProvider extends ChangeNotifier {
       suggestions = res;
       hasSearched = true;
       notifyListeners();
-      print(suggestions);
     } catch (e) {
       print("Error fetching suggestions: $e");
     }

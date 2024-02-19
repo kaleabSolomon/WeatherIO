@@ -8,6 +8,7 @@ import 'package:weather_io/widgets/city_data_preview.dart';
 import 'package:weather_io/widgets/custom_button.dart';
 import 'package:weather_io/widgets/custom_searchbar.dart';
 import 'package:weather_io/widgets/my_appbar.dart';
+import 'package:weather_io/widgets/suggestion_tile.dart';
 
 class AddLocationsPage extends StatefulWidget {
   const AddLocationsPage({super.key});
@@ -85,19 +86,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                     )
                   : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: ListTile(
-                        leading: const Icon(Icons.place),
-                        title: Text(
-                          "${suggestions[index].localizedName}, ${suggestions[index].country}",
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        onTap: () {
-                          // Handle suggestion tap
-                        },
-                      ),
-                    );
+                      child: SuggestionTile(index: index));
             },
           ),
         ),
