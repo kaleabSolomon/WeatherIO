@@ -5,7 +5,9 @@ import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/weather_stat.dart';
 
 class WeatherStatsToday extends StatelessWidget {
-  const WeatherStatsToday({super.key});
+  final bool? isNoForecast;
+
+  const WeatherStatsToday({super.key, this.isNoForecast});
 
   @override
   Widget build(BuildContext context) {
@@ -31,27 +33,36 @@ class WeatherStatsToday extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary),
             ),
           ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              WeatherStat(
-                  description: "temperature",
-                  stat: "20°",
-                  imagePath: "assets/temp.png"),
-              WeatherStat(
-                  description: "sun duration",
-                  stat: "5 hrs",
-                  imagePath: "assets/sun.png"),
-              WeatherStat(
-                  description: "wind speed",
-                  stat: "20 mi/hr",
-                  imagePath: "assets/wind.png"),
-              WeatherStat(
-                  description: "rain",
-                  stat: "0.3 in",
-                  imagePath: "assets/rain.png"),
-            ],
-          )
+          isNoForecast == true
+              ? Center(
+                  child: Text(
+                  "No Forecast Available",
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary),
+                ))
+              : const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    WeatherStat(
+                        description: "temperature",
+                        stat: "20°",
+                        imagePath: "assets/temp.png"),
+                    WeatherStat(
+                        description: "sun duration",
+                        stat: "5 hrs",
+                        imagePath: "assets/sun.png"),
+                    WeatherStat(
+                        description: "wind speed",
+                        stat: "20 mi/hr",
+                        imagePath: "assets/wind.png"),
+                    WeatherStat(
+                        description: "rain",
+                        stat: "0.3 in",
+                        imagePath: "assets/rain.png"),
+                  ],
+                )
         ],
       ),
     );

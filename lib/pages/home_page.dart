@@ -88,7 +88,9 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 10,
           ),
-          const WeatherStatsToday(),
+          const WeatherStatsToday(
+            isNoForecast: true,
+          ),
           Expanded(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.92,
