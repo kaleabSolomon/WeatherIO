@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:provider/provider.dart';
 import 'package:weather_io/pages/home_page.dart';
 import 'package:weather_io/provider/suggestions_provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => ThemeProvider()),
