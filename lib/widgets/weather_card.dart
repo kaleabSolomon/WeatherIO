@@ -55,57 +55,68 @@ class WeatherCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          location ?? "",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
-                        Text(
-                          formatDate(date ?? ""),
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        )
-                      ],
-                    ),
-                    Text(
-                      temperature != null ? "$temperature°" : "",
-                      style: TextStyle(
-                        fontSize: 42,
+            child: isNoForecast == true
+                ? Center(
+                    child: Text(
+                    "Add a City To View Forecast",
+                    style: TextStyle(
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.secondary),
+                  ))
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                location ?? "",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
+                              ),
+                              Text(
+                                formatDate(date ?? ""),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
+                              )
+                            ],
+                          ),
+                          Text(
+                            temperature != null ? "$temperature°" : "",
+                            style: TextStyle(
+                              fontSize: 42,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                          ),
+                          Text(
+                            weatherCondition ?? "",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
                       ),
-                    ),
-                    Text(
-                      weatherCondition ?? "",
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-                Icon(
-                  isNoForecast != true ? Icons.sunny : Icons.unpublished_sharp,
-                  size: 90,
-                  color: isNoForecast != true ? Colors.orange : Colors.grey,
-                )
-              ],
-            ),
+                      const Icon(
+                        Icons.sunny,
+                        size: 90,
+                        color: Colors.orange,
+                      )
+                    ],
+                  ),
           ),
         ]));
   }
