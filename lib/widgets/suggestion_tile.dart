@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_io/provider/forecast_provider.dart';
 import 'package:weather_io/provider/suggestions_provider.dart';
 
 class SuggestionTile extends StatelessWidget {
@@ -18,7 +19,8 @@ class SuggestionTile extends StatelessWidget {
         ),
       ),
       onTap: () {
-        print(suggestions[index].key);
+        Provider.of<ForecastProvider>(context, listen: false).fetchForecastData(
+            suggestions[index].key, suggestions[index].localizedName);
       },
     );
   }

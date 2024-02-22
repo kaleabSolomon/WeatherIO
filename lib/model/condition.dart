@@ -4,6 +4,6 @@ class Condition {
   Condition({required this.condition});
 
   factory Condition.fromJson(Map<String, dynamic> json) {
-    return Condition(condition: json["category"]);
+    return Condition(condition: json["Headline"]["Category"]);
   }
 }

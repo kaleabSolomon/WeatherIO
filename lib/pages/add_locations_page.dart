@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_io/provider/suggestions_provider.dart';
@@ -19,7 +17,6 @@ class AddLocationsPage extends StatefulWidget {
 
 class _AddLocationsPageState extends State<AddLocationsPage> {
   final TextEditingController _searchController = TextEditingController();
-  Timer? _debounce;
 
   void toggleTheme() {
     Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
@@ -29,17 +26,8 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
 
   @override
   void dispose() {
-    _debounce?.cancel();
     _searchFocusNode.dispose();
     super.dispose();
-  }
-
-  void _onSearchTextChanged(String text) {
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
-      Provider.of<SuggestionsProvider>(context, listen: false)
-          .fetchSuggestions(text);
-    });
   }
 
   @override
@@ -61,7 +49,10 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
             child: CustomSearchBar(
                 controller: _searchController,
                 searchFocusNode: _searchFocusNode,
-                onChanged: _onSearchTextChanged)),
+                onChanged: (value) => {
+                      Provider.of<SuggestionsProvider>(context, listen: false)
+                          .fetchSuggestions(value)
+                    })),
         Visibility(
           visible: _searchFocusNode.hasFocus,
           child: ListView.builder(

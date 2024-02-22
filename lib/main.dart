@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:provider/provider.dart';
 import 'package:weather_io/pages/home_page.dart';
+import 'package:weather_io/provider/forecast_provider.dart';
 import 'package:weather_io/provider/suggestions_provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 
@@ -13,6 +14,7 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ChangeNotifierProvider(create: (context) => SuggestionsProvider()),
+      ChangeNotifierProvider(create: (context) => ForecastProvider())
     ],
     child: const MyApp(),
   ));
