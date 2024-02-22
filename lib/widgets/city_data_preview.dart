@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_io/model/condition.dart';
+import 'package:weather_io/model/weatherData.dart';
 import 'package:weather_io/theme/theme.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 
 class CityDataPreview extends StatelessWidget {
-  const CityDataPreview({super.key});
+  final String cityName;
+  final Condition condition;
+  final WeatherData weatherData;
+
+  const CityDataPreview(
+      {super.key,
+      required this.cityName,
+      required this.condition,
+      required this.weatherData});
+
+  String calculateAverageTemperature(String maxTemp, String minTemp) {
+    double maxTempD = double.parse(maxTemp);
+    double minTempD = double.parse(minTemp);
+    double average = (maxTempD + minTempD) / 2;
+    return average.toStringAsFixed(1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +47,7 @@ class CityDataPreview extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "ADDIS ABEBA",
+                  cityName,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -39,7 +56,7 @@ class CityDataPreview extends StatelessWidget {
                 ),
                 Center(
                   child: Text(
-                    "24°",
+                    "${calculateAverageTemperature(weatherData.maxTemp, weatherData.minTemp)}°",
                     style: TextStyle(
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
@@ -55,7 +72,7 @@ class CityDataPreview extends StatelessWidget {
                       color: Colors.orange,
                     ),
                     Text(
-                      "Sunny",
+                      condition.condition,
                       style: TextStyle(
                           fontSize: 18,
                           color: Theme.of(context).colorScheme.secondary,

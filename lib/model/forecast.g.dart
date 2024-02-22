@@ -19,7 +19,7 @@ class ForecastAdapter extends TypeAdapter<Forecast> {
     return Forecast(
       city: fields[0] as String,
       condition: fields[1] as Condition,
-      weatherDate: (fields[2] as List).cast<WeatherData>(),
+      weatherData: (fields[2] as List).cast<WeatherData>(),
     );
   }
 
@@ -32,7 +32,7 @@ class ForecastAdapter extends TypeAdapter<Forecast> {
       ..writeByte(1)
       ..write(obj.condition)
       ..writeByte(2)
-      ..write(obj.weatherDate);
+      ..write(obj.weatherData);
   }
 
   @override

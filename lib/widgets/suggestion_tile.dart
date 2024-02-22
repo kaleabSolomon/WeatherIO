@@ -21,7 +21,9 @@ class SuggestionTile extends StatelessWidget {
       onTap: () {
         Provider.of<ForecastProvider>(context, listen: false).fetchForecastData(
             suggestions[index].key, suggestions[index].localizedName);
+        FocusManager.instance.primaryFocus?.unfocus();
       },
     );
   }
 }
+//TODO: ui not updating before preview updated. add a loader till data is fetched.

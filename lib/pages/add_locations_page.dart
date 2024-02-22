@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_io/provider/forecast_provider.dart';
 import 'package:weather_io/provider/suggestions_provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/city_data_preview.dart';
@@ -32,6 +33,8 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final forecastData =
+        Provider.of<ForecastProvider>(context, listen: false).forecastData;
     final suggestions = Provider.of<SuggestionsProvider>(context).suggestions;
     final bool hasSearched =
         Provider.of<SuggestionsProvider>(context).hasSearched;
@@ -88,14 +91,18 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                   keyboardDismissBehavior:
                       ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: const EdgeInsets.symmetric(horizontal: 14),
-                  itemCount: 5,
+                  itemCount: forecastData.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       childAspectRatio: 3 / 4,
                       crossAxisCount: 2,
                       mainAxisSpacing: 16,
                       crossAxisSpacing: 16),
                   itemBuilder: (BuildContext context, int index) =>
-                      const CityDataPreview())),
+                      CityDataPreview(
+                        cityName: forecastData[index].city,
+                        condition: forecastData[index].condition,
+                        weatherData: forecastData[index].weatherData[0],
+                      ))),
         ),
         Visibility(
             visible: !_searchFocusNode.hasFocus,

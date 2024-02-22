@@ -11,7 +11,7 @@ class Forecast extends HiveObject {
   @HiveField(1)
   final Condition condition;
   @HiveField(2)
-  final List<WeatherData> weatherDate;
+  final List<WeatherData> weatherData;
   Forecast(
-      {required this.city, required this.condition, required this.weatherDate});
+      {required this.city, required this.condition, required this.weatherData});
 }

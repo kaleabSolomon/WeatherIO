@@ -21,7 +21,7 @@ class ForecastService {
         Forecast forecast = Forecast(
             city: city,
             condition: Condition.fromJson(json),
-            weatherDate: weatherData);
+            weatherData: weatherData);
 
         return forecast;
       } else {
