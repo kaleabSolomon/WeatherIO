@@ -18,7 +18,6 @@ class SuggestionService {
 
         List<Suggestion> suggestions =
             jsonList.map((json) => Suggestion.fromJson(json)).toList();
-
         return suggestions;
       } else {
         throw Exception('Failed to load suggestions');
