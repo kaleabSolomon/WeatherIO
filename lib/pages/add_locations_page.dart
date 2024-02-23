@@ -112,9 +112,15 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
               children: [
                 SpinKitWave(
                   color: Theme.of(context).colorScheme.primary,
-                  size: 80.0,
+                  size: 60.0,
                 ),
-                const Text("loading...")
+                const Text(
+                  "Loading",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "ProtestStrike"),
+                )
               ],
             )))),
         Visibility(
