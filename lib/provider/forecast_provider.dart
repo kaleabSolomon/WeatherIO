@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:weather_io/model/forecast.dart';
 import 'package:weather_io/services/forecast_service.dart';
 
 class ForecastProvider extends ChangeNotifier {
   final _service = ForecastService();
+  final Box<Forecast> _forecastBox = Hive.box("forecastBox");
+  Box<Forecast> get forecastBox => _forecastBox;
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   set isLoading(bool value) {
@@ -23,7 +27,7 @@ class ForecastProvider extends ChangeNotifier {
       notifyListeners();
 
       final res = await _service.getForecast(locationKey, cityName);
-      _forecastData.add(res);
+      _recentData.add(res);
 
       isLoading = false;
       notifyListeners();
@@ -31,6 +35,33 @@ class ForecastProvider extends ChangeNotifier {
       isLoading = false;
       print("Error fetching weather data: $e");
       notifyListeners();
+    }
+  }
+
+  void saveForecastData() {
+    try {
+      for (Forecast forecast in _recentData) {
+        _forecastBox.put(forecast.city, forecast);
+      }
+      _recentData.clear();
+      notifyListeners();
+    } catch (e, stackTrace) {
+      print("Error saving forecast data: $e");
+      print(stackTrace);
+    }
+  }
+
+  void getSavedForecastData() async {
+    try {
+      _forecastData.clear();
+      notifyListeners();
+      List<Forecast> forecastList = forecastBox.values.toList();
+      for (Forecast forecast in forecastList) {
+        _forecastData.add(forecast);
+      }
+      notifyListeners();
+    } catch (e) {
+      print("couldn't get saved forecast data: $e");
     }
   }
 }

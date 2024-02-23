@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:weather_io/model/forecast.dart';
 import 'package:weather_io/provider/forecast_provider.dart';
 import 'package:weather_io/provider/suggestions_provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
@@ -35,11 +36,17 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
   @override
   Widget build(BuildContext context) {
     final isPreviewLoading = Provider.of<ForecastProvider>(context).isLoading;
-    final forecastData =
-        Provider.of<ForecastProvider>(context, listen: false).forecastData;
+    final forecastProvider =
+        Provider.of<ForecastProvider>(context, listen: false);
+
     final suggestions = Provider.of<SuggestionsProvider>(context).suggestions;
     final bool hasSearched =
         Provider.of<SuggestionsProvider>(context).hasSearched;
+
+    final List<Forecast> mergedListOfForecasts = [
+      ...forecastProvider.forecastData,
+      ...forecastProvider.recentData
+    ];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
@@ -91,7 +98,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                   keyboardDismissBehavior:
                       ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: const EdgeInsets.symmetric(horizontal: 14),
-                  itemCount: forecastData.length,
+                  itemCount: mergedListOfForecasts.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       childAspectRatio: 3 / 4,
                       crossAxisCount: 2,
@@ -99,9 +106,10 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                       crossAxisSpacing: 16),
                   itemBuilder: (BuildContext context, int index) =>
                       CityDataPreview(
-                        cityName: forecastData[index].city,
-                        condition: forecastData[index].condition,
-                        weatherData: forecastData[index].weatherData[0],
+                        cityName: mergedListOfForecasts[index].city,
+                        condition: mergedListOfForecasts[index].condition,
+                        weatherData:
+                            mergedListOfForecasts[index].weatherData[0],
                       ))),
         ),
         Visibility(
@@ -125,7 +133,12 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
             )))),
         Visibility(
             visible: !_searchFocusNode.hasFocus,
-            child: CustomButton(title: "Save Selection", btnAction: () {}))
+            child: CustomButton(
+                title: "Save Selection",
+                btnAction: () {
+                  forecastProvider.saveForecastData();
+                  Navigator.pop(context);
+                }))
       ]),
     );
   }
