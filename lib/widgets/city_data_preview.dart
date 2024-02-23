@@ -66,10 +66,13 @@ class CityDataPreview extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    const Icon(
-                      Icons.sunny,
-                      size: 30,
-                      color: Colors.orange,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: SvgPicture.asset(
+                        "assets/svg/weatherCondition.svg",
+                        width: 25,
+                        height: 25,
+                      ),
                     ),
                     Text(
                       condition.condition,
