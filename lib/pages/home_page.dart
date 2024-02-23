@@ -25,10 +25,12 @@ class _HomePageState extends State<HomePage> {
     super.didChangeDependencies();
     _appBarActions = [
       IconButton(
-          onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const AddLocationsPage())),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AddLocationsPage()));
+          },
           icon: const Icon(
             Icons.add,
             size: 30,

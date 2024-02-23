@@ -12,8 +12,10 @@ class ForecastProvider extends ChangeNotifier {
   }
 
   final List<Forecast> _forecastData = [];
+  final List<Forecast> _recentData = [];
 
   List<Forecast> get forecastData => _forecastData;
+  List<Forecast> get recentData => _recentData;
 
   Future<void> fetchForecastData(String locationKey, String cityName) async {
     try {
