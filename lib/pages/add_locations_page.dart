@@ -33,6 +33,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isPreviewLoading = Provider.of<ForecastProvider>(context).isLoading;
     final forecastData =
         Provider.of<ForecastProvider>(context, listen: false).forecastData;
     final suggestions = Provider.of<SuggestionsProvider>(context).suggestions;
@@ -63,9 +64,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
             itemCount: hasSearched
                 ? suggestions.isEmpty
                     ? 1
-                    : Provider.of<SuggestionsProvider>(context)
-                        .suggestions
-                        .length
+                    : suggestions.length
                 : 0,
             itemBuilder: (context, index) {
               return hasSearched && suggestions.isEmpty
@@ -85,7 +84,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
           ),
         ),
         Visibility(
-          visible: !_searchFocusNode.hasFocus,
+          visible: !_searchFocusNode.hasFocus && !isPreviewLoading,
           child: Expanded(
               child: GridView.builder(
                   keyboardDismissBehavior:
@@ -104,6 +103,9 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                         weatherData: forecastData[index].weatherData[0],
                       ))),
         ),
+        Visibility(
+            visible: !_searchFocusNode.hasFocus && isPreviewLoading,
+            child: const Expanded(child: Text("loading..."))),
         Visibility(
             visible: !_searchFocusNode.hasFocus,
             child: CustomButton(title: "Save Selection", btnAction: () {}))
