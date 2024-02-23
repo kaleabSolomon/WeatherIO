@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weather_io/provider/forecast_provider.dart';
 import 'package:weather_io/provider/suggestions_provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
@@ -105,7 +106,17 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
         ),
         Visibility(
             visible: !_searchFocusNode.hasFocus && isPreviewLoading,
-            child: const Expanded(child: Text("loading..."))),
+            child: Expanded(
+                child: Center(
+                    child: Column(
+              children: [
+                SpinKitWave(
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 80.0,
+                ),
+                const Text("loading...")
+              ],
+            )))),
         Visibility(
             visible: !_searchFocusNode.hasFocus,
             child: CustomButton(title: "Save Selection", btnAction: () {}))
