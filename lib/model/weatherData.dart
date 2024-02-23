@@ -1,9 +1,20 @@
-class WeatherData {
+import "package:hive/hive.dart";
+
+part "weatherData.g.dart";
+
+@HiveType(typeId: 2)
+class WeatherData extends HiveObject {
+  @HiveField(0)
   final String date;
+  @HiveField(1)
   final String maxTemp;
+  @HiveField(2)
   final String minTemp;
+  @HiveField(3)
   final String sunDuration;
+  @HiveField(4)
   final String windSpeed;
+  @HiveField(5)
   final String rainHeight;
 
   WeatherData(

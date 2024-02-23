@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:provider/provider.dart';
+import 'package:weather_io/model/condition.dart';
 import 'package:weather_io/model/forecast.dart';
+import 'package:weather_io/model/weatherData.dart';
 import 'package:weather_io/pages/home_page.dart';
 import 'package:weather_io/provider/forecast_provider.dart';
 import 'package:weather_io/provider/suggestions_provider.dart';
@@ -11,7 +13,9 @@ import 'package:weather_io/theme/theme_provider.dart';
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(ForecastAdapter());
-  await Hive.openBox("forecastBox");
+  Hive.registerAdapter(ConditionAdapter());
+  Hive.registerAdapter(WeatherDataAdapter());
+  await Hive.openBox<Forecast>("forecastBox");
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => ThemeProvider()),
