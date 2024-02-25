@@ -10,6 +10,8 @@ class SuggestionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final suggestions = Provider.of<SuggestionsProvider>(context).suggestions;
+    final forecastProvider =
+        Provider.of<ForecastProvider>(context, listen: false);
     return ListTile(
       leading: const Icon(Icons.place),
       title: Text(
@@ -19,8 +21,21 @@ class SuggestionTile extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Provider.of<ForecastProvider>(context, listen: false).fetchForecastData(
+        forecastProvider.fetchForecastData(
             suggestions[index].key, suggestions[index].localizedName);
+        if (forecastProvider.isDuplicateForecast) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            padding: EdgeInsets.all(8),
+            content: Text(
+              "Location already exists",
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            backgroundColor: Color.fromARGB(255, 210, 62, 62),
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 3),
+          ));
+        }
 
         FocusManager.instance.primaryFocus?.unfocus();
       },

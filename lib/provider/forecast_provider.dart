@@ -9,9 +9,17 @@ class ForecastProvider extends ChangeNotifier {
   Box<Forecast> get forecastBox => _forecastBox;
 
   bool _isLoading = false;
+  bool _isDuplicateForecast = false;
+
   bool get isLoading => _isLoading;
+  bool get isDuplicateForecast => _isDuplicateForecast;
   set isLoading(bool value) {
     _isLoading = value;
+    notifyListeners();
+  }
+
+  set isDuplicateForecast(bool value) {
+    _isDuplicateForecast = value;
     notifyListeners();
   }
 
@@ -23,17 +31,29 @@ class ForecastProvider extends ChangeNotifier {
 
   Future<void> fetchForecastData(String locationKey, String cityName) async {
     try {
+      isDuplicateForecast = false;
       isLoading = true;
-      notifyListeners();
+      final List<Forecast> availableForecast = [
+        ..._forecastData,
+        ..._recentData
+      ];
 
+      for (Forecast forecast in availableForecast) {
+        if (forecast.city == cityName) {
+          isDuplicateForecast = true;
+          isLoading = false;
+          return;
+        }
+      }
       final res = await _service.getForecast(locationKey, cityName);
+
       _recentData.add(res);
 
       isLoading = false;
       notifyListeners();
     } catch (e) {
       isLoading = false;
-      print("Error fetching weather data: $e");
+      print("Error fetching forecast data: $e");
       notifyListeners();
     }
   }
