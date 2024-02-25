@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_io/provider/forecast_provider.dart';
 import 'package:weather_io/provider/suggestions_provider.dart';
+import 'package:weather_io/widgets/custom_snackbar.dart';
 
 class SuggestionTile extends StatelessWidget {
   final int index;
@@ -24,17 +25,9 @@ class SuggestionTile extends StatelessWidget {
         forecastProvider.fetchForecastData(
             suggestions[index].key, suggestions[index].localizedName);
         if (forecastProvider.isDuplicateForecast) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            padding: EdgeInsets.all(8),
-            content: Text(
-              "Location already exists",
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-            backgroundColor: Color.fromARGB(255, 210, 62, 62),
-            behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 3),
-          ));
+          const CustomSnackBar(
+                  text: "Cannot add duplicate locations", color: Colors.red)
+              .show(context);
         }
 
         FocusManager.instance.primaryFocus?.unfocus();
