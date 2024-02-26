@@ -101,12 +101,25 @@ class WeatherCard extends StatelessWidget {
                               color: Theme.of(context).colorScheme.secondary,
                             ),
                           ),
-                          Text(
-                            weatherCondition ?? "",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Theme.of(context).colorScheme.secondary,
-                                fontWeight: FontWeight.bold),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: SvgPicture.asset(
+                                  "assets/svg/weatherCondition.svg",
+                                  width: 25,
+                                  height: 25,
+                                ),
+                              ),
+                              Text(
+                                weatherCondition ?? "",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           )
                         ],
                       ),

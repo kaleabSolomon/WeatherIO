@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_io/model/forecast.dart';
 import 'package:weather_io/pages/add_locations_page.dart';
 import 'package:weather_io/provider/forecast_provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
@@ -18,7 +20,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Widget> _appBarActions = [];
-  final int _pageCount = 3;
   final PageController _pageController = PageController(keepPage: true);
 
   @override
@@ -45,8 +46,19 @@ class _HomePageState extends State<HomePage> {
     Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
   }
 
+  String calculateAverageTemperature(String maxTemp, String minTemp) {
+    double maxTempD = double.parse(maxTemp);
+    double minTempD = double.parse(minTemp);
+    double average = (maxTempD + minTempD) / 2;
+    return average.toStringAsFixed(1);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final forecastBox = Hive.box<Forecast>("forecastBox");
+    List<Forecast> forecastDataList = forecastBox.values.toList();
+    int pageCount = forecastDataList.isNotEmpty ? forecastDataList.length : 1;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
@@ -60,34 +72,39 @@ class _HomePageState extends State<HomePage> {
           Column(
             children: [
               SizedBox(
-                height: 220,
-                child: PageView(
-                  controller: _pageController,
-                  scrollDirection: Axis.horizontal,
-                  children: const [
-                    WeatherCard(
-                      isNoForecast: true,
-                    ),
-                    WeatherCard(
-                      location: 'Addis Abeba',
-                      date: "2024-02-15T07:00:00+00:00",
-                      temperature: "24",
-                      weatherCondition: "Sunny",
-                    ),
-                    WeatherCard(
-                      location: 'Addis Abeba',
-                      date: "2024-02-15T07:00:00+00:00",
-                      temperature: "24",
-                      weatherCondition: "Sunny",
-                    )
-                  ],
-                ),
-              ),
+                  height: 220,
+                  child: PageView.builder(
+                      itemCount: forecastDataList.isNotEmpty
+                          ? forecastDataList.length
+                          : 1,
+                      controller: _pageController,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) {
+                        return forecastDataList.isEmpty
+                            ? const WeatherCard(
+                                isNoForecast: true,
+                              )
+                            : WeatherCard(
+                                location: forecastDataList[index].city,
+                                date:
+                                    forecastDataList[index].weatherData[0].date,
+                                temperature: calculateAverageTemperature(
+                                  forecastDataList[index]
+                                      .weatherData[0]
+                                      .maxTemp,
+                                  forecastDataList[index]
+                                      .weatherData[0]
+                                      .minTemp,
+                                ),
+                                weatherCondition:
+                                    forecastDataList[index].condition.condition,
+                              );
+                      })),
               const SizedBox(
                 height: 10,
               ),
               PageIndicatorBuilder(
-                  pageController: _pageController, cardCount: _pageCount),
+                  pageController: _pageController, cardCount: pageCount),
             ],
           ),
           const SizedBox(
