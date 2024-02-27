@@ -166,7 +166,6 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                   onPressed: () {
                     Navigator.pop(context);
                     Navigator.pop(context);
-                    forecastProvider.getSavedForecastData();
                     forecastProvider.recentData.clear();
                   },
                   child: const Text("Go Back")),
