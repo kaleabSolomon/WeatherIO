@@ -35,7 +35,7 @@ class _PageIndicatorBuilderState extends State<PageIndicatorBuilder> {
   Widget build(BuildContext context) {
     return SmoothPageIndicator(
       controller: widget.pageController,
-      count: widget.cardCount,
+      count: widget.cardCount == 0 ? 1 : widget.cardCount,
       effect: ScrollingDotsEffect(
           activeDotColor: Theme.of(context).colorScheme.primary,
           dotWidth: 8,

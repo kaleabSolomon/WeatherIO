@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_io/model/forecast.dart';
 import 'package:weather_io/theme/theme.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/weather_stat.dart';
 
-class WeatherStatsToday extends StatelessWidget {
+class WeatherStatsToday extends StatefulWidget {
+  final Forecast? forecastToday;
   final bool? isNoForecast;
 
-  const WeatherStatsToday({super.key, this.isNoForecast});
+  const WeatherStatsToday({super.key, this.isNoForecast, this.forecastToday});
+
+  @override
+  State<WeatherStatsToday> createState() => _WeatherStatsTodayState();
+}
+
+class _WeatherStatsTodayState extends State<WeatherStatsToday> {
+  String calculateAverageTemperature(String maxTemp, String minTemp) {
+    double maxTempD = double.parse(maxTemp);
+    double minTempD = double.parse(minTemp);
+    double average = (maxTempD + minTempD) / 2;
+    return average.toStringAsFixed(0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +47,7 @@ class WeatherStatsToday extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary),
             ),
           ),
-          isNoForecast == true
+          widget.isNoForecast == true
               ? Center(
                   child: Text(
                   "No Forecast Available",
@@ -42,24 +56,26 @@ class WeatherStatsToday extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary),
                 ))
-              : const Row(
+              : Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     WeatherStat(
                         description: "temperature",
-                        stat: "20°",
+                        stat: calculateAverageTemperature(
+                            widget.forecastToday!.weatherData[0].maxTemp,
+                            widget.forecastToday!.weatherData[0].maxTemp),
                         imagePath: "assets/temp.png"),
                     WeatherStat(
                         description: "sun duration",
-                        stat: "5 hrs",
+                        stat: widget.forecastToday!.weatherData[0].sunDuration,
                         imagePath: "assets/sun.png"),
                     WeatherStat(
                         description: "wind speed",
-                        stat: "20 mi/hr",
+                        stat: widget.forecastToday!.weatherData[0].windSpeed,
                         imagePath: "assets/wind.png"),
                     WeatherStat(
                         description: "rain",
-                        stat: "0.3 in",
+                        stat: widget.forecastToday!.weatherData[0].rainHeight,
                         imagePath: "assets/rain.png"),
                   ],
                 )

@@ -145,6 +145,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                   title: "Save Selection",
                   btnAction: () {
                     forecastProvider.saveForecastData();
+                    forecastProvider.getSavedForecastData();
                     Navigator.pop(context);
                   }))
         ]),
@@ -165,6 +166,7 @@ class _AddLocationsPageState extends State<AddLocationsPage> {
                   onPressed: () {
                     Navigator.pop(context);
                     Navigator.pop(context);
+                    forecastProvider.getSavedForecastData();
                     forecastProvider.recentData.clear();
                   },
                   child: const Text("Go Back")),

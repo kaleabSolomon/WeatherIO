@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_io/model/forecast.dart';
 import 'package:weather_io/pages/add_locations_page.dart';
@@ -42,6 +41,15 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      Provider.of<ForecastProvider>(context, listen: false)
+          .getSavedForecastData();
+    });
+  }
+
   void toggleTheme() {
     Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
   }
@@ -50,14 +58,18 @@ class _HomePageState extends State<HomePage> {
     double maxTempD = double.parse(maxTemp);
     double minTempD = double.parse(minTemp);
     double average = (maxTempD + minTempD) / 2;
-    return average.toStringAsFixed(1);
+    return average.toStringAsFixed(0);
   }
 
   @override
   Widget build(BuildContext context) {
-    final forecastBox = Hive.box<Forecast>("forecastBox");
-    List<Forecast> forecastDataList = forecastBox.values.toList();
-    int pageCount = forecastDataList.isNotEmpty ? forecastDataList.length : 1;
+    // final forecastBox = Hive.box<Forecast>("forecastBox");
+    // List<Forecast> forecastDataList = forecastBox.values.toList();
+    // int pageCount = forecastDataList.isNotEmpty ? forecastDataList.length : 1;
+    // int activePage = 0;
+
+    final List<Forecast> forecastDataList =
+        Provider.of<ForecastProvider>(context, listen: false).forecastData;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -78,6 +90,9 @@ class _HomePageState extends State<HomePage> {
                           ? forecastDataList.length
                           : 1,
                       controller: _pageController,
+                      // onPageChanged: (int pageIndex) {
+                      //   activePage = pageIndex;
+                      // },
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (BuildContext context, int index) {
                         return forecastDataList.isEmpty
@@ -104,12 +119,18 @@ class _HomePageState extends State<HomePage> {
                 height: 10,
               ),
               PageIndicatorBuilder(
-                  pageController: _pageController, cardCount: pageCount),
+                  pageController: _pageController,
+                  cardCount: forecastDataList.length),
             ],
           ),
           const SizedBox(
             height: 10,
           ),
+          // forecastDataList.isNotEmpty
+          //     ? WeatherStatsToday(
+          //         forecastToday: forecastDataList[activePage],
+          //       )
+          // :
           const WeatherStatsToday(
             isNoForecast: true,
           ),
