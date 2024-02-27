@@ -26,8 +26,8 @@ class _WeatherStatsTodayState extends State<WeatherStatsToday> {
   Widget build(BuildContext context) {
     final List<Forecast> forecastDataList =
         Provider.of<ForecastProvider>(context).forecastData;
-    final int activePage =
-        Provider.of<PageDataProvider>(context, listen: false).pageNumber;
+    // final int activePage =
+    //     Provider.of<PageDataProvider>(context, listen: false).pageNumber;
     return Container(
       height: 120,
       width: MediaQuery.of(context).size.width * 0.92,
@@ -59,36 +59,32 @@ class _WeatherStatsTodayState extends State<WeatherStatsToday> {
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary),
                 ))
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    WeatherStat(
-                        description: "temperature",
-                        stat: calculateAverageTemperature(
-                            forecastDataList[activePage].weatherData[0].maxTemp,
-                            forecastDataList[activePage]
-                                .weatherData[0]
-                                .maxTemp),
-                        imagePath: "assets/temp.png"),
-                    WeatherStat(
-                        description: "sun duration",
-                        stat: forecastDataList[activePage]
-                            .weatherData[0]
-                            .sunDuration,
-                        imagePath: "assets/sun.png"),
-                    WeatherStat(
-                        description: "wind speed",
-                        stat: forecastDataList[activePage]
-                            .weatherData[0]
-                            .windSpeed,
-                        imagePath: "assets/wind.png"),
-                    WeatherStat(
-                        description: "rain",
-                        stat: forecastDataList[activePage]
-                            .weatherData[0]
-                            .rainHeight,
-                        imagePath: "assets/rain.png"),
-                  ],
+              : Consumer<PageDataProvider>(
+                  builder: (context, pageState, _) => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      WeatherStat(
+                          description: "temperature",
+                          stat:
+                              "${calculateAverageTemperature(forecastDataList[pageState.pageNumber].weatherData[0].maxTemp, forecastDataList[pageState.pageNumber].weatherData[0].maxTemp)}°F",
+                          imagePath: "assets/temp.png"),
+                      WeatherStat(
+                          description: "sun duration",
+                          stat:
+                              "${forecastDataList[pageState.pageNumber].weatherData[0].sunDuration}Hrs",
+                          imagePath: "assets/sun.png"),
+                      WeatherStat(
+                          description: "wind speed",
+                          stat:
+                              "${forecastDataList[pageState.pageNumber].weatherData[0].windSpeed}mi/h",
+                          imagePath: "assets/wind.png"),
+                      WeatherStat(
+                          description: "rain",
+                          stat:
+                              "${forecastDataList[pageState.pageNumber].weatherData[0].rainHeight}in",
+                          imagePath: "assets/rain.png"),
+                    ],
+                  ),
                 )
         ],
       ),
