@@ -32,6 +32,6 @@ class WeatherData extends HiveObject {
         minTemp: json["Temperature"]["Minimum"]["Value"].toString(),
         sunDuration: json["HoursOfSun"].toString(),
         windSpeed: json["Day"]["Wind"]["Speed"]["Value"].toString(),
-        rainHeight: json["Day"]["Rain"]["value"].toString());
+        rainHeight: json["Day"]["Rain"]["Value"].toString());
   }
 }

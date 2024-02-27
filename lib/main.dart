@@ -7,6 +7,7 @@ import 'package:weather_io/model/forecast.dart';
 import 'package:weather_io/model/weatherData.dart';
 import 'package:weather_io/pages/home_page.dart';
 import 'package:weather_io/provider/forecast_provider.dart';
+import 'package:weather_io/provider/page_data_provider.dart';
 import 'package:weather_io/provider/suggestions_provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 
@@ -20,7 +21,8 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ChangeNotifierProvider(create: (context) => SuggestionsProvider()),
-      ChangeNotifierProvider(create: (context) => ForecastProvider())
+      ChangeNotifierProvider(create: (context) => ForecastProvider()),
+      ChangeNotifierProvider(create: (context) => PageDataProvider())
     ],
     child: const MyApp(),
   ));

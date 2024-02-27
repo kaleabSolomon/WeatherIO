@@ -34,6 +34,11 @@ class ForecastProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteFromForecastList(String cityName) {
+    forecastData.removeWhere((element) => element.city == cityName);
+    notifyListeners();
+  }
+
   Future<void> fetchForecastData(String locationKey, String cityName) async {
     try {
       isDuplicateForecast = false;
@@ -65,10 +70,16 @@ class ForecastProvider extends ChangeNotifier {
 
   void saveForecastData() {
     try {
+      for (var forecastKey in _forecastBox.keys.toList()) {
+        if (!forecastData.any((forecast) => forecast.city == forecastKey)) {
+          _forecastBox.delete(forecastKey); // Remove forecast from _forecastBox
+        }
+      }
       for (Forecast forecast in _recentData) {
         _forecastBox.put(forecast.city, forecast);
       }
       _recentData.clear();
+
       notifyListeners();
     } catch (e, stackTrace) {
       print("Error saving forecast data: $e");

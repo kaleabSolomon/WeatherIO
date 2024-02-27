@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_io/model/forecast.dart';
+import 'package:weather_io/provider/forecast_provider.dart';
+import 'package:weather_io/provider/page_data_provider.dart';
 import 'package:weather_io/theme/theme.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/weather_stat.dart';
 
 class WeatherStatsToday extends StatefulWidget {
-  final Forecast? forecastToday;
-  final bool? isNoForecast;
-
-  const WeatherStatsToday({super.key, this.isNoForecast, this.forecastToday});
+  const WeatherStatsToday({super.key});
 
   @override
   State<WeatherStatsToday> createState() => _WeatherStatsTodayState();
@@ -25,6 +24,10 @@ class _WeatherStatsTodayState extends State<WeatherStatsToday> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Forecast> forecastDataList =
+        Provider.of<ForecastProvider>(context).forecastData;
+    final int activePage =
+        Provider.of<PageDataProvider>(context, listen: false).pageNumber;
     return Container(
       height: 120,
       width: MediaQuery.of(context).size.width * 0.92,
@@ -47,7 +50,7 @@ class _WeatherStatsTodayState extends State<WeatherStatsToday> {
                   color: Theme.of(context).colorScheme.primary),
             ),
           ),
-          widget.isNoForecast == true
+          forecastDataList.isEmpty
               ? Center(
                   child: Text(
                   "No Forecast Available",
@@ -62,20 +65,28 @@ class _WeatherStatsTodayState extends State<WeatherStatsToday> {
                     WeatherStat(
                         description: "temperature",
                         stat: calculateAverageTemperature(
-                            widget.forecastToday!.weatherData[0].maxTemp,
-                            widget.forecastToday!.weatherData[0].maxTemp),
+                            forecastDataList[activePage].weatherData[0].maxTemp,
+                            forecastDataList[activePage]
+                                .weatherData[0]
+                                .maxTemp),
                         imagePath: "assets/temp.png"),
                     WeatherStat(
                         description: "sun duration",
-                        stat: widget.forecastToday!.weatherData[0].sunDuration,
+                        stat: forecastDataList[activePage]
+                            .weatherData[0]
+                            .sunDuration,
                         imagePath: "assets/sun.png"),
                     WeatherStat(
                         description: "wind speed",
-                        stat: widget.forecastToday!.weatherData[0].windSpeed,
+                        stat: forecastDataList[activePage]
+                            .weatherData[0]
+                            .windSpeed,
                         imagePath: "assets/wind.png"),
                     WeatherStat(
                         description: "rain",
-                        stat: widget.forecastToday!.weatherData[0].rainHeight,
+                        stat: forecastDataList[activePage]
+                            .weatherData[0]
+                            .rainHeight,
                         imagePath: "assets/rain.png"),
                   ],
                 )

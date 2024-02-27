@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:weather_io/model/forecast.dart';
 import 'package:weather_io/pages/add_locations_page.dart';
 import 'package:weather_io/provider/forecast_provider.dart';
+import 'package:weather_io/provider/page_data_provider.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 import 'package:weather_io/widgets/future_forecast.dart';
 import 'package:weather_io/widgets/my_appbar.dart';
@@ -24,11 +25,14 @@ class _HomePageState extends State<HomePage> {
   @override
   void didChangeDependencies() {
     final forecastProvider = Provider.of<ForecastProvider>(context);
+    final activePageProvider =
+        Provider.of<PageDataProvider>(context, listen: false);
     super.didChangeDependencies();
     _appBarActions = [
       IconButton(
           onPressed: () {
             forecastProvider.getSavedForecastData();
+            activePageProvider.pageNumber = 0;
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -63,13 +67,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final forecastBox = Hive.box<Forecast>("forecastBox");
-    // List<Forecast> forecastDataList = forecastBox.values.toList();
-    // int pageCount = forecastDataList.isNotEmpty ? forecastDataList.length : 1;
-    // int activePage = 0;
-
     final List<Forecast> forecastDataList =
         Provider.of<ForecastProvider>(context, listen: false).forecastData;
+    final activePageProvider =
+        Provider.of<PageDataProvider>(context, listen: false);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -90,9 +91,10 @@ class _HomePageState extends State<HomePage> {
                           ? forecastDataList.length
                           : 1,
                       controller: _pageController,
-                      // onPageChanged: (int pageIndex) {
-                      //   activePage = pageIndex;
-                      // },
+                      onPageChanged: (int pageIndex) {
+                        activePageProvider.pageNumber = pageIndex;
+                        print(activePageProvider.pageNumber);
+                      },
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (BuildContext context, int index) {
                         return forecastDataList.isEmpty
@@ -126,14 +128,7 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 10,
           ),
-          // forecastDataList.isNotEmpty
-          //     ? WeatherStatsToday(
-          //         forecastToday: forecastDataList[activePage],
-          //       )
-          // :
-          const WeatherStatsToday(
-            isNoForecast: true,
-          ),
+          const WeatherStatsToday(),
           Expanded(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.92,

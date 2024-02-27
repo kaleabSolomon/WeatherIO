@@ -3,10 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_io/model/condition.dart';
 import 'package:weather_io/model/weatherData.dart';
+import 'package:weather_io/provider/forecast_provider.dart';
 import 'package:weather_io/theme/theme.dart';
 import 'package:weather_io/theme/theme_provider.dart';
 
-class CityDataPreview extends StatelessWidget {
+class CityDataPreview extends StatefulWidget {
   final String cityName;
   final Condition condition;
   final WeatherData weatherData;
@@ -17,6 +18,11 @@ class CityDataPreview extends StatelessWidget {
       required this.condition,
       required this.weatherData});
 
+  @override
+  State<CityDataPreview> createState() => _CityDataPreviewState();
+}
+
+class _CityDataPreviewState extends State<CityDataPreview> {
   String calculateAverageTemperature(String maxTemp, String minTemp) {
     double maxTempD = double.parse(maxTemp);
     double minTempD = double.parse(minTemp);
@@ -26,6 +32,7 @@ class CityDataPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final forecastListProvider = Provider.of<ForecastProvider>(context);
     return SizedBox(
         height: 220,
         width: MediaQuery.of(context).size.width * 0.45,
@@ -47,7 +54,7 @@ class CityDataPreview extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  cityName,
+                  widget.cityName,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -56,7 +63,7 @@ class CityDataPreview extends StatelessWidget {
                 ),
                 Center(
                   child: Text(
-                    "${calculateAverageTemperature(weatherData.maxTemp, weatherData.minTemp)}°",
+                    "${calculateAverageTemperature(widget.weatherData.maxTemp, widget.weatherData.minTemp)}°",
                     style: TextStyle(
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
@@ -65,22 +72,35 @@ class CityDataPreview extends StatelessWidget {
                   ),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: SvgPicture.asset(
-                        "assets/svg/weatherCondition.svg",
-                        width: 25,
-                        height: 25,
-                      ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: SvgPicture.asset(
+                            "assets/svg/weatherCondition.svg",
+                            width: 25,
+                            height: 25,
+                          ),
+                        ),
+                        Text(
+                          widget.condition.condition,
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
                     ),
-                    Text(
-                      condition.condition,
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontWeight: FontWeight.bold),
-                    )
+                    IconButton(
+                        onPressed: () => forecastListProvider
+                            .deleteFromForecastList(widget.cityName),
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Color.fromARGB(255, 253, 46, 31),
+                          size: 30,
+                        ))
                   ],
                 )
               ],
