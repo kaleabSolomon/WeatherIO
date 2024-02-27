@@ -54,7 +54,9 @@ class WeatherCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 30,
+            ),
             child: isNoForecast == true
                 ? Center(
                     child: Text(
@@ -64,72 +66,75 @@ class WeatherCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.secondary),
                   ))
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                location ?? "",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
+                : Stack(children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              location ?? "",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.secondary,
                               ),
-                              Text(
-                                formatDate(date ?? ""),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
-                              )
-                            ],
-                          ),
-                          Text(
-                            temperature != null ? "$temperature°" : "",
-                            style: TextStyle(
-                              fontSize: 42,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.secondary,
                             ),
+                            Text(
+                              formatDate(date ?? ""),
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                            )
+                          ],
+                        ),
+                        Text(
+                          temperature != null ? "$temperature°" : "",
+                          style: TextStyle(
+                            fontSize: 42,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: SvgPicture.asset(
-                                  "assets/svg/weatherCondition.svg",
-                                  width: 25,
-                                  height: 25,
-                                ),
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: SvgPicture.asset(
+                                "assets/svg/weatherCondition.svg",
+                                width: 25,
+                                height: 25,
                               ),
-                              Text(
-                                weatherCondition ?? "",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          )
-                        ],
+                            ),
+                            Text(
+                              weatherCondition ?? "",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    Positioned(
+                      left: 135,
+                      top: 30,
+                      child: SvgPicture.asset(
+                        "assets/svg/w.io-logo.svg",
+                        color: Provider.of<ThemeProvider>(context).themeData ==
+                                lightMode
+                            ? const Color.fromARGB(105, 204, 204, 204)
+                            : const Color.fromARGB(105, 92, 91, 91),
+                        width: 180,
+                        height: 180,
                       ),
-                      const Icon(
-                        Icons.sunny,
-                        size: 90,
-                        color: Colors.orange,
-                      )
-                    ],
-                  ),
+                    ),
+                  ]),
           ),
         ]));
   }
