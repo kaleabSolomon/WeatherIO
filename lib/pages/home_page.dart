@@ -69,8 +69,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final List<Forecast> forecastDataList =
         Provider.of<ForecastProvider>(context, listen: false).forecastData;
-    final activePageProvider =
-        Provider.of<PageDataProvider>(context, listen: false);
+    final activePageProvider = Provider.of<PageDataProvider>(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -148,39 +147,31 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Expanded(
-                    child: ListView(
-                      children: const <Widget>[
-                        FutureForecast(
-                          day: "Monday",
-                          condition: "sunny",
-                          maxTemp: "22",
-                          minTemp: "19",
-                        ),
-                        FutureForecast(
-                          day: "Monday",
-                          condition: "sunny",
-                          maxTemp: "22",
-                          minTemp: "19",
-                        ),
-                        FutureForecast(
-                          day: "Monday",
-                          condition: "sunny",
-                          maxTemp: "22",
-                          minTemp: "19",
-                        ),
-                        FutureForecast(
-                          day: "Monday",
-                          condition: "sunny",
-                          maxTemp: "22",
-                          minTemp: "19",
-                        ),
-                        FutureForecast(
-                          day: "Monday",
-                          condition: "sunny",
-                          maxTemp: "22",
-                          minTemp: "19",
-                        ),
-                      ],
+                    child: ListView.builder(
+                      itemCount: forecastDataList.isNotEmpty
+                          ? forecastDataList.length
+                          : 1,
+                      itemBuilder: (BuildContext context, int index) =>
+                          forecastDataList.isEmpty
+                              ? const FutureForecast(isNoForecast: true)
+                              : FutureForecast(
+                                  day: forecastDataList[
+                                          activePageProvider.pageNumber]
+                                      .weatherData[index]
+                                      .date,
+                                  condition: forecastDataList[
+                                          activePageProvider.pageNumber]
+                                      .condition
+                                      .condition,
+                                  maxTemp: forecastDataList[
+                                          activePageProvider.pageNumber]
+                                      .weatherData[index]
+                                      .maxTemp,
+                                  minTemp: forecastDataList[
+                                          activePageProvider.pageNumber]
+                                      .weatherData[index]
+                                      .minTemp,
+                                ),
                     ),
                   )
                 ],

@@ -14,6 +14,19 @@ class FutureForecast extends StatelessWidget {
       this.maxTemp,
       this.minTemp,
       this.isNoForecast});
+  String getDayOfWeek(String? dateString) {
+    DateTime date = DateTime.parse(dateString!);
+    List<String> daysOfWeek = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ];
+    return daysOfWeek[date.weekday - 1];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +47,7 @@ class FutureForecast extends StatelessWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(day ?? "",
+                  Text(getDayOfWeek(day) ?? "",
                       style: const TextStyle(
                         color: Color.fromARGB(255, 103, 103, 103),
                         fontSize: 20,
